@@ -1,0 +1,260 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+.menu-container {
+    margin-bottom: 30px;
+}
+
+h1, h2, h3, h4 {
+    margin-bottom: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #003366;
+}
+
+h2 {
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    padding-bottom: 5px;
+}
+
+h3 {
+    color: #0066cc;
+    margin-top: 20px;
+}
+
+h4 {
+    font-weight: normal;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.food-item {
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.nutrition {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.copy-btn {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.copy-btn:hover {
+    background-color: #004c99;
+}
+
+.date-display {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#menu-output {
+    white-space: pre-wrap;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.loading {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+}
+
+/* Button container for centering */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+/* Style for all buttons */
+.btn {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #004c99;
+}
+
+/* Active state for meal buttons */
+.meal-btn.active {
+    background-color: #003366;
+    font-weight: bold;
+}
+
+/* Add these new styles */
+.category-header {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f8ff;
+    border-radius: 4px;
+    margin-bottom: 0;
+}
+
+.category-header:hover {
+    background-color: #e1f0ff;
+}
+
+.collapse-icon {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.category-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding-left: 10px;
+}
+
+/* Add these new styles */
+.category-nav-container {
+    margin: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    overflow: visible; /* Ensures the container doesn't clip the content */
+}
+
+.category-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Add horizontal scrolling for desktop */
+@media (min-width: 768px) {
+    .category-nav:hover {
+        overflow-x: auto;
+        padding-bottom: 10px; /* Add padding to show scrollbar */
+    }
+    
+    .category-nav:hover::-webkit-scrollbar {
+        display: block;
+        height: 8px;
+    }
+    
+    .category-nav:hover::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+    
+    .category-nav:hover::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+}
+
+.category-nav-item {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-right: 10px;
+    background-color: #f1f8ff;
+    border-radius: 20px;
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.category-nav-item:hover {
+    background-color: #e1f0ff;
+}
+
+.category-nav-item.active {
+    background-color: #0066cc;
+    color: white;
+}
+
+.meal-nav-item {
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.category-nav::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.category-nav {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.options-container {
+    position: relative;
+    text-align: right;
+    margin: 10px;
+}
+
+.options-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.options-menu {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 1000; /* Increased z-index to render above other elements */
+}
+
+.options-menu.active {
+    display: block;
+}
+
+.option-item {
+    margin: 5px 0;
+    white-space: nowrap;
+}
+
+.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.clickable:hover {
+    color: #0066cc;
+}

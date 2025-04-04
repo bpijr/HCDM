@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Highlander Commons Daily Menu</title>
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
+	<body>
+		<h1>Highlander Commons Daily Menu</h1>
+		<div class="date-display" id="current-date"></div>
+
+		<div class="button-container">
+			<button id="refresh-btn" class="btn">Refresh Menu</button>
+			<button id="copy-selected-btn" class="btn">Copy Selected Menu</button>
+			<button id="copy-btn" class="btn">Copy All Menus</button>
+		</div>
+
+		<div class="button-container">
+			<button id="all-btn" class="btn meal-btn active">All Menus</button>
+			<button id="breakfast-btn" class="btn meal-btn">Breakfast</button>
+			<button id="lunch-btn" class="btn meal-btn">Lunch</button>
+			<button id="dinner-btn" class="btn meal-btn">Dinner</button>
+		</div>
+
+		<div class="options-container">
+			<button id="options-btn" class="btn options-btn">⚙️ Options</button>
+			<div id="options-menu" class="options-menu">
+				<div class="option-item">
+					<input type="checkbox" id="show-macros" />
+					<label for="show-macros">Show Macros</label>
+				</div>
+				<div class="option-item">
+					<input type="checkbox" id="show-allergies" />
+					<label for="show-allergies">Show Allergies</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="category-nav-container">
+			<div id="category-nav" class="category-nav">
+				<!-- Categories will be added dynamically -->
+			</div>
+		</div>
+
+		<div id="menu-container">
+			<div class="loading">Loading menus...</div>
+		</div>
+
+		<div id="menu-output" style="display: none"></div>
+
+		<script src="js/menuService.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>
