@@ -211,7 +211,46 @@ async function fetchAndDisplayMenus(date = new Date()) {
 }
 
 function copyMenuToClipboard() {
-    const textToCopy = document.getElementById('menu-output').textContent;
+    const date = new Date();
+    let textToCopy = `HIGHLANDER COMMONS MENU - ${date.toDateString()}\n\n`;
+    
+    // Get all menu containers
+    const menuContainers = document.querySelectorAll('.menu-container');
+    
+    menuContainers.forEach(container => {
+        const mealType = container.querySelector('h2').textContent;
+        textToCopy += `*** ${mealType} ***\n\n`;
+        
+        // Extract the menu content and format it
+        const categories = container.querySelectorAll('.category-header');
+        
+        categories.forEach(category => {
+            // Remove the collapse/expand icon from text
+            const categoryName = category.textContent.toUpperCase().replace('−', '').replace('+', '').trim();
+            textToCopy += `=== ${categoryName} ===\n\n`;
+            
+            // Find the corresponding content section
+            const targetId = category.dataset.target;
+            const contentSection = document.getElementById(targetId);
+            
+            if (contentSection) {
+                // Get all food items in this content section
+                const foodItems = contentSection.querySelectorAll('.food-item');
+                foodItems.forEach(item => {
+                    const foodName = item.querySelector('h4').textContent;
+                    const nutrition = item.querySelector('.nutrition').textContent;
+                    
+                    textToCopy += `${foodName} |`;
+                    textToCopy += `  ${nutrition}\n`;
+                });
+            }
+            textToCopy += '\n';
+        });
+        
+        textToCopy += '\n';
+    });
+
+    // Copy to clipboard
     navigator.clipboard.writeText(textToCopy).then(() => {
         alert('Menu copied to clipboard!');
     }, () => {
@@ -256,7 +295,7 @@ function copySelectedMenuToClipboard() {
     
     categories.forEach(category => {
         // Remove the collapse/expand icon from text
-        const categoryName = category.textContent.replace('−', '').replace('+', '').trim();
+        const categoryName = category.textContent.toUpperCase().replace('−', '').replace('+', '').trim();
         textToCopy += `=== ${categoryName} ===\n\n`;
         
         // Find the corresponding content section
@@ -270,15 +309,92 @@ function copySelectedMenuToClipboard() {
                 const foodName = item.querySelector('h4').textContent;
                 const nutrition = item.querySelector('.nutrition').textContent;
                 
-                textToCopy += `• ${foodName}\n`;
-                textToCopy += `  ${nutrition}\n\n`;
+                textToCopy += `${foodName} |`;
+                textToCopy += `  ${nutrition}\n`;
             });
         }
+        textToCopy += '\n';
     });
 
     // Copy to clipboard
     navigator.clipboard.writeText(textToCopy).then(() => {
         alert(`${mealType} menu copied to clipboard!`);
+    }, () => {
+        alert('Failed to copy menu. Please try again.');
+    });
+}
+
+function copySpecificCategoriesToClipboard() {
+    const date = new Date();
+    let textToCopy = `HIGHLANDER COMMONS SELECTED CATEGORIES - ${date.toDateString()}\n\n`;
+    
+    // List of categories to include (case-insensitive)
+    const includedCategories = [
+        "Today's Entree.", 'Pastability.', 'Vegetarian Deli.', 'Deli.', 
+        'Rotisserie - Carvery.', 'Home Style Soup.', 'Grill Station.', 
+        'Halal Station', 'Make Your Own Omelet', 'Omelet Made to Order.'
+    ];
+    
+    // Get all menu containers
+    const menuContainers = document.querySelectorAll('.menu-container');
+    let hasContent = false;
+    
+    menuContainers.forEach(container => {
+        const mealType = container.querySelector('h2').textContent;
+        let mealHasContent = false;
+        let mealContent = `*** ${mealType} ***\n\n`;
+        
+        // Extract the menu content and format it
+        const categories = container.querySelectorAll('.category-header');
+        
+        categories.forEach(category => {
+            // Get category name without icons
+            const categoryName = category.textContent.replace('−', '').replace('+', '').trim();
+            
+            // Check if this category should be included
+            if (includedCategories.some(c => categoryName.toLowerCase().includes(c.toLowerCase()))) {
+                // Find the corresponding content section
+                const targetId = category.dataset.target;
+                const contentSection = document.getElementById(targetId);
+                
+                if (contentSection) {
+                    // Get all food items in this content section
+                    const foodItems = contentSection.querySelectorAll('.food-item');
+                    
+                    // Skip empty categories
+                    if (foodItems.length === 0) return;
+                    
+                    mealHasContent = true;
+                    hasContent = true;
+                    
+                    mealContent += `=== ${categoryName.toUpperCase()} ===\n\n`;
+                    
+                    foodItems.forEach(item => {
+                        const foodName = item.querySelector('h4').textContent;
+                        const nutrition = item.querySelector('.nutrition').textContent;
+                        
+                        mealContent += `${foodName} |`;
+                        mealContent += `  ${nutrition}\n`;
+                    });
+                    mealContent += '\n';
+                }
+            }
+        });
+        
+        // Only add this meal if it has matching categories with content
+        if (mealHasContent) {
+            textToCopy += mealContent + '\n';
+        }
+    });
+    
+    // Show message if no matching categories found
+    if (!hasContent) {
+        textToCopy += 'No matching categories found in today\'s menu.\n';
+    }
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        alert('Selected categories copied to clipboard!');
     }, () => {
         alert('Failed to copy menu. Please try again.');
     });
@@ -343,6 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('refresh-btn').addEventListener('click', fetchAndDisplayMenus);
     document.getElementById('copy-btn').addEventListener('click', copyMenuToClipboard);
     document.getElementById('copy-selected-btn').addEventListener('click', copySelectedMenuToClipboard);
+    document.getElementById('copy-specific-btn').addEventListener('click', copySpecificCategoriesToClipboard);
 
     // Get meal filter buttons
     const breakfastBtn = document.getElementById('breakfast-btn');
